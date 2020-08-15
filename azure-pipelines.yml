@@ -13,18 +13,30 @@ strategy:
     Python36:
       python.version: '3.6'
 
-steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '$(python.version)'
-  displayName: 'Use Python $(python.version)'
+stages:
+- stage: test1
+  jobs:
+  - job: test1-1
+    displayName: test1-1
+    steps:
+    - script: echo test1-1
+  - job: test1-2
+    displayName: test1-2
+    steps:
+    - script: echo test1-2
 
-- script: |
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-  displayName: 'Install dependencies'
+# steps:
+# - task: UsePythonVersion@0
+#   inputs:
+#     versionSpec: '$(python.version)'
+#   displayName: 'Use Python $(python.version)'
 
-- script: |
-    pip install pytest pytest-azurepipelines
-    pytest
-  displayName: 'pytest'
+# - script: |
+#     python -m pip install --upgrade pip
+#     pip install -r requirements.txt
+#   displayName: 'Install dependencies'
+
+# - script: |
+#     pip install pytest pytest-azurepipelines
+#     pytest
+#   displayName: 'pytest'
