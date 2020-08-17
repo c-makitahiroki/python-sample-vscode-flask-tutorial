@@ -13,37 +13,74 @@ pool:
 #     Python36:
 #       python.version: '3.6'
 
-stages:
-- stage: test0
-  jobs:
-  - job: test00
-    strategy:
-      matrix:
-        Python36:
-          python.version: '3.6'
-- stage: test1
-  jobs:
-  - job: test10
-    displayName: test1-1
-    steps:
-    - script: echo test1-1
-  - job: test20
-    displayName: test1-2
-    steps:
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '$(python.version)'
-      displayName: 'Use Python $(python.version)'
+variables:
+  # カバレッジ計測用
+  # ここで指定されたPythonバージョンでカバレッジを計測する
+  MAJOR_PYTHON_VERSION: '3.6'
 
-    - script: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-      displayName: 'Install dependencies'
+jobs:
+- job: test
+  strategy:
+    matrix:
+      Python35:
+        python.version: '3.5'
+      Python36:
+        python.version: '3.6'
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+    displayName: 'Use Python $(python.version)'
+  - script: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt
+    displayName: 'Install dependencies'
 
-    - script: |
-        pip install pytest pytest-azurepipelines
-        pytest
-      displayName: 'pytest'
+  - script: |
+      pip install pytest pytest-azurepipelines
+      pytest
+    displayName: 'pytest'
+
+- job: coverage
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(MAJOR_PYTHON_VERSION)'
+    displayName: 'Use Python $(MAJOR_PYTHON_VERSION)'
+  - script:
+  - script:
+
+# stages:
+# - stage: test0
+#   jobs:
+#   - job: test00
+#     strategy:
+#       matrix:
+#         Python36:
+#           python.version: '3.6'
+# - stage: test1
+#   jobs:
+#   - job: test10
+#     displayName: test1-1
+#     steps:
+#     - script: echo test1-1
+#   - job: test20
+#     displayName: test1-2
+#     steps:
+#     - task: UsePythonVersion@0
+#       inputs:
+#         versionSpec: '$(python.version)'
+#       displayName: 'Use Python $(python.version)'
+
+#     - script: |
+#         python -m pip install --upgrade pip
+#         pip install -r requirements.txt
+#       displayName: 'Install dependencies'
+
+#     - script: |
+#         pip install pytest pytest-azurepipelines
+#         pytest
+#       displayName: 'pytest'
 
 # steps:
 # - task: UsePythonVersion@0
