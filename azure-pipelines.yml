@@ -49,7 +49,7 @@ jobs:
     displayName: 'Use Python $(MAJOR_PYTHON_VERSION)'
   - script: |
       pip install pytest=6.0.1 pytest-azurepipelines=0.8.0 pytest-cov=2.10.1
-      pytest -v --cov
+      pytest -v --cov --cov_report=xml
 #      pytest -v --cov --cov_report=html
     displayName: 'calc coverage'
 
