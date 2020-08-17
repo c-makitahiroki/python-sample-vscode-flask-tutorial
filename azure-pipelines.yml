@@ -15,6 +15,7 @@ variables:
   MAJOR_PYTHON_VERSION: '3.6'
 
 jobs:
+# テスト実行
 - job: test
   # 将来的にPythonの複数バージョンテストがしたくなった時のためにこの記載にしておく
   strategy:
@@ -36,6 +37,7 @@ jobs:
       pytest
     displayName: 'pytest'
 
+# カバレッジ計測
 - job: coverage
   steps:
   - task: UsePythonVersion@0
