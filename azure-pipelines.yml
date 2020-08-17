@@ -47,8 +47,11 @@ jobs:
     inputs:
       versionSpec: '$(MAJOR_PYTHON_VERSION)'
     displayName: 'Use Python $(MAJOR_PYTHON_VERSION)'
-  - script:
-  - script:
+  - script: |
+      pip install pytest pytest-azurepipelines pytest-cov
+      pytest -v --cov --cov_report=html
+    displayName: 'calc coverage'
+
 
 # stages:
 # - stage: test0
